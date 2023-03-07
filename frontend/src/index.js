@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Container maxWidth={'sm'}>
+  <Container maxWidth={'md'}>
     <Home />
   </Container>
 );

@@ -1,11 +1,71 @@
-import { Typography } from "@mui/material";
+import * as React from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { Button } from "@mui/material";
 
-function Table() {
-  return (
-    <>
-      <Typography>Table</Typography>
-    </>
-  );
+function createData(date, original, shortened) {
+  return { date, original, shortened };
 }
 
-export default Table;
+const rows = [
+  createData(
+    new Date().toISOString().substring(0, 10),
+    "Original URL",
+    "Shortened Url"
+  ),
+  createData(
+    new Date().toISOString().substring(0, 10),
+    "Original URL",
+    "Shortened Url"
+  ),
+  createData(
+    new Date().toISOString().substring(0, 10),
+    "Original URL",
+    "Shortened Url"
+  ),
+];
+
+export default function BasicTable() {
+  return (
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <colgroup>
+          <col style={{ width: "15%" }} />
+          <col style={{ width: "35%" }} />
+          <col style={{ width: "35%" }} />
+          <col style={{ width: "15%" }} />
+        </colgroup>
+        <TableHead>
+          <TableRow>
+            <TableCell>Date</TableCell>
+            <TableCell>Original URL</TableCell>
+            <TableCell>Shortened URL</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              key={row.date}
+            >
+              <TableCell component="th" scope="row">
+                {row.date}
+              </TableCell>
+              <TableCell>{row.original}</TableCell>
+              <TableCell>{row.shortened}</TableCell>
+              <TableCell>
+                <Button>Delete</Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}
