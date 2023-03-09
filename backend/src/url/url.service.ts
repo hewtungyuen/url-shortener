@@ -19,9 +19,9 @@ export class UrlService {
     return this.urlRepository.find();
   }
 
-  retrieveLongUrlById(id: string) {
+  async retrieveLongUrlById(input: string) {
     return this.urlRepository
-      .findOneBy({ id: id })
+      .findOneBy({ id: input })
       .then((data) => data.long_url);
   }
 

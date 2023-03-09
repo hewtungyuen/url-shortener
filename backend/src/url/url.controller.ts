@@ -1,12 +1,20 @@
-import { Controller, Get, Param, Post, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Delete,
+  Res,
+  Body,
+} from '@nestjs/common';
 import { UrlService } from './url.service';
-
+import { Response } from 'express';
 @Controller('url')
 export class UrlController {
   constructor(private readonly urlService: UrlService) {}
 
-  @Post(':url')
-  addOne(@Param('url') url: string) {
+  @Post()
+  addOne(@Body('url') url: string) {
     this.urlService.addOne(url);
   }
 
@@ -15,9 +23,11 @@ export class UrlController {
     return this.urlService.retrieveAll();
   }
 
-  @Get('getLongUrl/:id')
-  retrieveLongUrlById(@Param('id') id: string) {
-    return this.urlService.retrieveLongUrlById(id);
+  @Get(':id')
+  retrieveLongUrlById(@Param('id') id: string, @Res() res: Response) {
+    this.urlService.retrieveLongUrlById(id).then((data) => {
+      return res.redirect(`${data}`);
+    });
   }
 
   @Delete(':id')
