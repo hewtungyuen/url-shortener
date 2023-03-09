@@ -1,15 +1,6 @@
 import { Button, Stack, TextField, Typography } from "@mui/material";
-import { useState } from "react";
-import api from "../axiosConfig";
-function Input() {
-  const [url, setUrl] = useState("");
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    await api.post(`/url/${url}`);
-    setUrl("");
-  };
-
+function Input({handleSubmit, url, setUrl}) {
   return (
     <>
       <Typography variant="h5">Input</Typography>

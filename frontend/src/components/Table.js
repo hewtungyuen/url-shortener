@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,20 +9,11 @@ import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import api from "../axiosConfig";
 
-
-export default function BasicTable() {
-  const [urls, setUrls] = useState(null);
-
-  useEffect(() => {
-    api
-      .get("/url")
-      .then((res) => {
-        return res.data;
-      })
-      .then((data) => {
-        setUrls(data);
-      });
-  }, []);
+export default function BasicTable({ urls, refresh, setRefresh }) {
+  const handleDelete = async (id) => {
+    setRefresh(!refresh);
+    await api.delete(`/url/${id}`);
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -43,21 +33,22 @@ export default function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {urls && urls.map((row) => (
-            <TableRow
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              key={row.id}
-            >
-              <TableCell component="th" scope="row">
-                {row.date.slice(0,10)}
-              </TableCell>
-              <TableCell>{row.long_url}</TableCell>
-              <TableCell>{row.id}</TableCell>
-              <TableCell>
-                <Button>Delete</Button>
-              </TableCell>
-            </TableRow>
-          ))}
+          {urls &&
+            urls.map((row) => (
+              <TableRow
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                key={row.id}
+              >
+                <TableCell component="th" scope="row">
+                  {row.date.slice(0, 10)}
+                </TableCell>
+                <TableCell>{row.long_url}</TableCell>
+                <TableCell>{row.id}</TableCell>
+                <TableCell>
+                  <Button onClick={() => handleDelete(row.id)}>Delete</Button>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>
