@@ -16,7 +16,7 @@ export class UrlService {
   }
 
   retrieveAll() {
-    console.log('retrieveAll');
+    return this.urlRepository.find();
   }
 
   retrieveById(id: string) {

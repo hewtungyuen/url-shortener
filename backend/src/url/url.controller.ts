@@ -12,7 +12,7 @@ export class UrlController {
 
   @Get()
   retrieveAll() {
-    this.urlService.retrieveAll();
+    return this.urlService.retrieveAll();
   }
 
   @Get(':id')
