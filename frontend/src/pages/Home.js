@@ -19,7 +19,7 @@ function Home() {
 
   const [urls, setUrls] = useState(null);
 
-  useEffect(() => {
+  useEffect(() => { 
     api
       .get("/url")
       .then((res) => {

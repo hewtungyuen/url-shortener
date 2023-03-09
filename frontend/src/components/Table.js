@@ -43,7 +43,13 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
                   {row.date.slice(0, 10)}
                 </TableCell>
                 <TableCell>{row.long_url}</TableCell>
-                <TableCell>{row.id}</TableCell>
+                <TableCell>
+                  <a
+                    href={row.long_url} 
+                  > 
+                    {row.id}
+                  </a>
+                </TableCell>
                 <TableCell>
                   <Button onClick={() => handleDelete(row.id)}>Delete</Button>
                 </TableCell>
