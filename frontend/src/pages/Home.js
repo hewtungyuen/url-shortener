@@ -3,7 +3,6 @@ import Input from "../components/Input";
 import Table from "../components/Table";
 import { useState, useEffect } from "react";
 import api from "../axiosConfig";
-
 function Home() {
   const [url, setUrl] = useState("");
   const [refresh, setRefresh] = useState(true);
@@ -11,14 +10,15 @@ function Home() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const result = await api.post(`/url/`, {
-      url: url,
-    });
-    if (result.status === 201) {
+
+    try {
+      await api.post(`/url/`, {
+        url: url,
+      });
       setUrl("");
       setRefresh(!refresh);
       setError(false);
-    } else {
+    } catch (error) {
       setError(true);
     }
   };
@@ -39,7 +39,11 @@ function Home() {
   return (
     <Stack>
       <Input handleSubmit={handleSubmit} url={url} setUrl={setUrl} />
-      {error ? <Typography color={'red'}>Please input a valid url</Typography> : <br></br>}
+      {error ? (
+        <Typography color={"red"}>Please input a valid url</Typography>
+      ) : (
+        <br></br>
+      )}
       <br></br>
       <Table urls={urls} refresh={refresh} setRefresh={setRefresh} />
     </Stack>

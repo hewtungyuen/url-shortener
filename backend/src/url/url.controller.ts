@@ -6,6 +6,7 @@ import {
   Delete,
   Res,
   Body,
+  HttpException,
 } from '@nestjs/common';
 import { UrlService } from './url.service';
 import { Response } from 'express';
@@ -14,8 +15,13 @@ export class UrlController {
   constructor(private readonly urlService: UrlService) {}
 
   @Post()
-  addOne(@Body('url') url: string) {
-    this.urlService.addOne(url);
+  async addOne(@Body('url') url: string) {
+    const isValid = await this.urlService.checkUrlValidity(url);
+    if (isValid) {
+      this.urlService.addOne(url);
+    } else {
+      throw new HttpException('Invalid URL', 400);
+    }
   }
 
   @Get()

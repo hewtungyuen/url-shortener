@@ -28,4 +28,16 @@ export class UrlService {
   deleteById(id: string) {
     this.urlRepository.delete({ id: id });
   }
+
+  checkUrlValidity(s: string) {
+    let url;
+
+    try {
+      url = new URL(s);
+    } catch {
+      return false;
+    }
+
+    return url.protocol === 'http:' || url.protocol === 'https:';
+  }
 }
