@@ -19,7 +19,9 @@ export class UrlService {
     return this.urlRepository.find();
   }
 
-  retrieveById(id: string) {
-    console.log(id);
+  retrieveLongUrlById(id: string) {
+    return this.urlRepository
+      .findOneBy({ id: id })
+      .then((data) => data.long_url);
   }
 }

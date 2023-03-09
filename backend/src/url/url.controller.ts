@@ -15,8 +15,8 @@ export class UrlController {
     return this.urlService.retrieveAll();
   }
 
-  @Get(':id')
-  retrieveById(@Param('id') id: string) {
-    this.urlService.retrieveById(id);
+  @Get('getLongUrl/:id')
+  retrieveLongUrlById(@Param('id') id: string) {
+    return this.urlService.retrieveLongUrlById(id);
   }
 }
