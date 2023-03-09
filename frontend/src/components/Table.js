@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,30 +8,23 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
+import api from "../axiosConfig";
 
-function createData(date, original, shortened) {
-  return { date, original, shortened };
-}
-
-const rows = [
-  createData(
-    new Date().toISOString().substring(0, 10),
-    "Original URL",
-    "Shortened Url"
-  ),
-  createData(
-    new Date().toISOString().substring(0, 10),
-    "Original URL",
-    "Shortened Url"
-  ),
-  createData(
-    new Date().toISOString().substring(0, 10),
-    "Original URL",
-    "Shortened Url"
-  ),
-];
 
 export default function BasicTable() {
+  const [urls, setUrls] = useState(null);
+
+  useEffect(() => {
+    api
+      .get("/url")
+      .then((res) => {
+        return res.data;
+      })
+      .then((data) => {
+        setUrls(data);
+      });
+  }, []);
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -49,16 +43,16 @@ export default function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {urls && urls.map((row) => (
             <TableRow
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              key={row.date}
+              key={row.id}
             >
               <TableCell component="th" scope="row">
-                {row.date}
+                {row.date.slice(0,10)}
               </TableCell>
-              <TableCell>{row.original}</TableCell>
-              <TableCell>{row.shortened}</TableCell>
+              <TableCell>{row.long_url}</TableCell>
+              <TableCell>{row.id}</TableCell>
               <TableCell>
                 <Button>Delete</Button>
               </TableCell>
