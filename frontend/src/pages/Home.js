@@ -10,9 +10,11 @@ function Home() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await api.post(`/url/${url}`);
+    await api.post(`/url/`, {
+      url: url,
+    });
     setUrl("");
-    setRefresh(!refresh)
+    setRefresh(!refresh);
   };
 
   const [urls, setUrls] = useState(null);
@@ -31,7 +33,7 @@ function Home() {
   return (
     <Stack>
       <Input handleSubmit={handleSubmit} url={url} setUrl={setUrl} />
-      <Table urls={urls} refresh={refresh} setRefresh={setRefresh}/>
+      <Table urls={urls} refresh={refresh} setRefresh={setRefresh} />
     </Stack>
   );
 }
