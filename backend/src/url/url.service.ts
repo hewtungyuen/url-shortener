@@ -16,7 +16,11 @@ export class UrlService {
   }
 
   retrieveAll() {
-    return this.urlRepository.find();
+    return this.urlRepository.find({
+      order: {
+        date: 'DESC',
+      },
+    });
   }
 
   async retrieveLongUrlById(input: string) {
