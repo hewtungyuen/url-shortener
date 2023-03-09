@@ -6,7 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button } from "@mui/material";
+import { Button, ButtonGroup } from "@mui/material";
 import api from "../axiosConfig";
 
 export default function BasicTable({ urls, refresh, setRefresh }) {
@@ -44,14 +44,21 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
                 </TableCell>
                 <TableCell>{row.long_url}</TableCell>
                 <TableCell>
-                  <a
-                    href={row.long_url} 
-                  > 
-                    {row.id}
-                  </a>
+                  <a href={row.long_url}>{row.id}</a>
                 </TableCell>
                 <TableCell>
-                  <Button onClick={() => handleDelete(row.id)}>Delete</Button>
+                  <ButtonGroup variant="outlined">
+                    <Button onClick={() => handleDelete(row.id)}>Delete</Button>
+                    <Button
+                      onClick={() =>
+                        navigator.clipboard.writeText(
+                          `${process.env.REACT_APP_BASE_API}/url/${row.id}`
+                        )
+                      }
+                    >
+                      Copy
+                    </Button>
+                  </ButtonGroup>
                 </TableCell>
               </TableRow>
             ))}
