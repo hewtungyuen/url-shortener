@@ -24,4 +24,8 @@ export class UrlService {
       .findOneBy({ id: id })
       .then((data) => data.long_url);
   }
+
+  deleteById(id: string) {
+    this.urlRepository.delete({ id: id });
+  }
 }

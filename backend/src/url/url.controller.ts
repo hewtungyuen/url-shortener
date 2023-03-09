@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post, Delete } from '@nestjs/common';
 import { UrlService } from './url.service';
 
 @Controller('url')
@@ -18,5 +18,10 @@ export class UrlController {
   @Get('getLongUrl/:id')
   retrieveLongUrlById(@Param('id') id: string) {
     return this.urlService.retrieveLongUrlById(id);
+  }
+
+  @Delete(':id')
+  deleteById(@Param('id') id: string) {
+    this.urlService.deleteById(id);
   }
 }
