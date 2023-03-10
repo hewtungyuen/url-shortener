@@ -13,21 +13,40 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import SnackBar from "./SnackBar";
 
-
 const BoldCell = styled(TableCell)({
   fontWeight: "bold",
   color: "white",
 });
 
-export default function BasicTable({ urls, refresh, setRefresh }) {
-  const [open, setOpen] = React.useState(false);
+function ActionButtons({ row, handleDelete, setOpen }) {
+  return (
+    <ButtonGroup variant="outlined">
+      <IconButton onClick={() => handleDelete(row.id)}>
+        <DeleteIcon />
+      </IconButton>
+      <IconButton
+        onClick={() => {
+          navigator.clipboard.writeText(
+            `${process.env.REACT_APP_BASE_API}/url/${row.id}`
+          );
+          setOpen(true);
+        }}
+      >
+        <ContentCopyIcon />
+      </IconButton>
+    </ButtonGroup>
+  );
+}
 
-  const handleClose = (event, reason) => {
+export default function BasicTable({ urls, refresh, setRefresh }) {
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+
+  const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
 
-    setOpen(false);
+    setOpenSnackbar(false);
   };
 
   const handleDelete = async (id) => {
@@ -37,7 +56,11 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
 
   return (
     <>
-      <SnackBar open={open} handleClose={handleClose} text={'Copied to clipboard!'}/>
+      <SnackBar
+        open={openSnackbar}
+        handleClose={handleCloseSnackbar}
+        text={"Copied to clipboard!"}
+      />
       <TableContainer component={Paper} sx={{ boxShadow: 6 }}>
         <Table sx={{ minWidth: 650, boxShadow: 6 }} aria-label="simple table">
           <colgroup>
@@ -72,21 +95,11 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
                     <a href={row.long_url}>{row.id}</a>
                   </TableCell>
                   <TableCell>
-                    <ButtonGroup variant="outlined">
-                      <IconButton onClick={() => handleDelete(row.id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => {
-                          navigator.clipboard.writeText(
-                            `${process.env.REACT_APP_BASE_API}/url/${row.id}`
-                          );
-                          setOpen(true);
-                        }}
-                      >
-                        <ContentCopyIcon />
-                      </IconButton>
-                    </ButtonGroup>
+                    <ActionButtons
+                      row={row}
+                      handleDelete={handleDelete}
+                      setOpen={setOpenSnackbar}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
