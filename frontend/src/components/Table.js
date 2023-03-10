@@ -22,7 +22,7 @@ const BoldCell = styled(TableCell)({
   color: "white",
 });
 
-function ActionButtons({ row, handleOpenDialog, setOpen }) {
+function ActionButtons({ row, handleOpenDialog, setOpenSnackbar }) {
   return (
     <ButtonGroup variant="outlined">
       <IconButton onClick={handleOpenDialog}>
@@ -33,7 +33,7 @@ function ActionButtons({ row, handleOpenDialog, setOpen }) {
           navigator.clipboard.writeText(
             `${process.env.REACT_APP_BASE_API}/url/${row.id}`
           );
-          setOpen(true);
+          setOpenSnackbar(true);
         }}
       >
         <ContentCopyIcon />
@@ -73,9 +73,11 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
   };
 
   const [openDialog, setOpenDialog] = React.useState(false);
+  const [idToDelete, setIdToDelete] = React.useState("");
 
-  const handleOpenDialog = () => {
+  const handleOpenDialog = (id) => {
     setOpenDialog(true);
+    setIdToDelete(id);
   };
 
   const handleCloseDialog = () => {
@@ -95,7 +97,12 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
         handleClose={handleCloseSnackbar}
         text={"Copied to clipboard!"}
       />
-
+      <DeleteConfirmationDialog
+        open={openDialog}
+        handleClose={handleCloseDialog}
+        handleDelete={handleDelete}
+        id={idToDelete}
+      />
       <TableContainer component={Paper} sx={{ boxShadow: 6 }}>
         <Table sx={{ minWidth: 650, boxShadow: 6 }} aria-label="simple table">
           <colgroup>
@@ -126,7 +133,9 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
                     {row.date.slice(0, 10)}
                   </TableCell>
                   <TableCell>
-                    <div style={{ overflow: "auto", width:'300px' }}>{row.long_url}</div>
+                    <div style={{ overflow: "auto", width: "300px" }}>
+                      {row.long_url}
+                    </div>
                   </TableCell>
                   <TableCell>
                     <a href={row.long_url}>{row.id}</a>
@@ -134,16 +143,10 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
                   <TableCell>
                     <ActionButtons
                       row={row}
-                      handleOpenDialog={handleOpenDialog}
-                      setOpen={setOpenSnackbar}
+                      handleOpenDialog={() => handleOpenDialog(row.id)}
+                      setOpenSnackbar={setOpenSnackbar}
                     />
                   </TableCell>
-                  <DeleteConfirmationDialog
-                    open={openDialog}
-                    handleClose={handleCloseDialog}
-                    handleDelete={handleDelete}
-                    id={row.id}
-                  />
                 </TableRow>
               ))}
           </TableBody>
