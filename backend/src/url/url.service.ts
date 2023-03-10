@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Urls as UrlEntity } from 'src/typeorm/Urls';
+import { Urls as UrlEntity } from '../typeorm/Urls';
 
 @Injectable()
 export class UrlService {
