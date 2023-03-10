@@ -12,16 +12,20 @@ import { styled } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import SnackBar from "./SnackBar";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
 
 const BoldCell = styled(TableCell)({
   fontWeight: "bold",
   color: "white",
 });
 
-function ActionButtons({ row, handleDelete, setOpen }) {
+function ActionButtons({ row, handleOpenDialog, setOpen }) {
   return (
     <ButtonGroup variant="outlined">
-      <IconButton onClick={() => handleDelete(row.id)}>
+      <IconButton onClick={handleOpenDialog}>
         <DeleteIcon />
       </IconButton>
       <IconButton
@@ -38,6 +42,25 @@ function ActionButtons({ row, handleDelete, setOpen }) {
   );
 }
 
+function DeleteConfirmationDialog({ open, handleClose, handleDelete, id }) {
+  return (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">{"Confirm deletion?"}</DialogTitle>
+      <DialogActions>
+        <Button onClick={handleClose}>No</Button>
+        <Button onClick={() => handleDelete(id)} autoFocus>
+          Yes
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
 export default function BasicTable({ urls, refresh, setRefresh }) {
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
@@ -49,8 +72,19 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
     setOpenSnackbar(false);
   };
 
+  const [openDialog, setOpenDialog] = React.useState(false);
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   const handleDelete = async (id) => {
     setRefresh(!refresh);
+    handleCloseDialog();
     await api.delete(`/url/${id}`);
   };
 
@@ -61,6 +95,7 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
         handleClose={handleCloseSnackbar}
         text={"Copied to clipboard!"}
       />
+
       <TableContainer component={Paper} sx={{ boxShadow: 6 }}>
         <Table sx={{ minWidth: 650, boxShadow: 6 }} aria-label="simple table">
           <colgroup>
@@ -97,10 +132,16 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
                   <TableCell>
                     <ActionButtons
                       row={row}
-                      handleDelete={handleDelete}
+                      handleOpenDialog={handleOpenDialog}
                       setOpen={setOpenSnackbar}
                     />
                   </TableCell>
+                  <DeleteConfirmationDialog
+                    open={openDialog}
+                    handleClose={handleCloseDialog}
+                    handleDelete={handleDelete}
+                    id={row.id}
+                  />
                 </TableRow>
               ))}
           </TableBody>
