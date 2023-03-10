@@ -23,8 +23,8 @@ Do ensure that the database, dotenv and dependency setup is performed before run
 * MYSQL_USERNAME = < mysql username >
 * MYSQL_PASSWORD = < mysql password >
 * MYSQL_DATABASE = < database_name from above >
-* MYSQL_HOST = < mysql host>
-* MYSQL_PORT = < mysql port>
+* MYSQL_HOST = < mysql host >
+* MYSQL_PORT = < mysql port >
 * TYPEORM_SYNC* = < true | false >
 * API_PORT = < api port to expose >
 
