@@ -11,8 +11,8 @@ import api from "../axiosConfig";
 import { styled } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
+import SnackBar from "./SnackBar";
+
 
 const BoldCell = styled(TableCell)({
   fontWeight: "bold",
@@ -37,15 +37,7 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
 
   return (
     <>
-      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-        <MuiAlert
-          onClose={handleClose}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          Copied to clipboard!
-        </MuiAlert>
-      </Snackbar>
+      <SnackBar open={open} handleClose={handleClose} text={'Copied to clipboard!'}/>
       <TableContainer component={Paper} sx={{ boxShadow: 6 }}>
         <Table sx={{ minWidth: 650, boxShadow: 6 }} aria-label="simple table">
           <colgroup>
