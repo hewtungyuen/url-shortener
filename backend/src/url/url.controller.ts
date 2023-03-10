@@ -18,7 +18,12 @@ export class UrlController {
   async addOne(@Body('url') url: string) {
     const isValid = await this.urlService.checkUrlValidity(url);
     if (isValid) {
-      this.urlService.addOne(url);
+      try {
+        await this.urlService.addOne(url);
+        return `Successfully added ${url}`;
+      } catch {
+        throw new HttpException('Server error', 500);
+      }
     } else {
       throw new HttpException('Invalid URL', 400);
     }
@@ -26,18 +31,31 @@ export class UrlController {
 
   @Get()
   retrieveAll() {
-    return this.urlService.retrieveAll();
+    try {
+      return this.urlService.retrieveAll();
+    } catch {
+      throw new HttpException('Server error', 500);
+    }
   }
 
   @Get(':id')
   retrieveLongUrlById(@Param('id') id: string, @Res() res: Response) {
-    this.urlService.retrieveLongUrlById(id).then((data) => {
-      return res.redirect(`${data}`);
-    });
+    try {
+      this.urlService.retrieveLongUrlById(id).then((data) => {
+        return res.redirect(`${data}`);
+      });
+    } catch {
+      throw new HttpException('Server error', 500);
+    }
   }
 
   @Delete(':id')
-  deleteById(@Param('id') id: string) {
-    this.urlService.deleteById(id);
+  async deleteById(@Param('id') id: string) {
+    try {
+      await this.urlService.deleteById(id);
+      return `Successfully deleted ${id}`;
+    } catch {
+      throw new HttpException('Server error', 500);
+    }
   }
 }
