@@ -17,7 +17,7 @@ const theme = createTheme({
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ThemeProvider theme={theme}>
-    <Typography variant="h3" sx={{ bgcolor: "#744850", color:'white', p: 3 }}>
+    <Typography variant="h5" sx={{ bgcolor: "#744850", color:'white', p: 3 }}>
       GoWhere URL Shortener
     </Typography>
     <Container maxWidth={false} sx={{ p: 2 }}>
