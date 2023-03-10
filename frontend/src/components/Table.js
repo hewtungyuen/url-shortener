@@ -125,7 +125,9 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
                   <TableCell component="th" scope="row">
                     {row.date.slice(0, 10)}
                   </TableCell>
-                  <TableCell>{row.long_url}</TableCell>
+                  <TableCell>
+                    <div style={{ overflow: "auto", width:'300px' }}>{row.long_url}</div>
+                  </TableCell>
                   <TableCell>
                     <a href={row.long_url}>{row.id}</a>
                   </TableCell>
