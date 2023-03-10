@@ -53,6 +53,8 @@ Do ensure that the database, dotenv and dependency setup is performed before run
 
 4. Once the backend and frontend servers are running, visit http://localhost:3000
 
+Alternatively, to run the app using Docker, run the command `docker-compose up`
+
 ### Deployment
 I used https://railway.app/ to host a MySQL database instance and the NestJS backend, and https://vercel.com/ to host the ReactJS frontend.
 
