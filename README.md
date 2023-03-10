@@ -35,16 +35,16 @@ Do ensure that the database, dotenv and dependency setup is performed before run
 
 ### Installing dependencies
 1. Open an instance of the command line client.
-2. Change directory to `/backend. Run the command `npm install`
-3. Return tho the root directory, then to `/frontend`. Run the command `npm install`
+2. Change directory to `/backend`. Run the command `npm install`
+3. Return to the root directory, then to `/frontend`. Run the command `npm install`
 
 ### Running the application locally
 1. Open two instances of the command line client.
 2. For the first instance:
-		a. Change directory to `/backend`
-		b. Run the command `npm run start`
+	1. Change directory to `/backend`
+	2. Run the command `npm run start`
 3. For the second instance:
-		a. Change directory to `/frontend`
-		b. Run the command `npm start`
+	1. Change directory to `/frontend`
+	2. Run the command `npm start`
 
 4. Once the backend and frontend servers are running, visit http://localhost:3000
