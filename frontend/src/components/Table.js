@@ -53,7 +53,7 @@ function DeleteConfirmationDialog({ open, handleClose, handleDelete, id }) {
       <DialogTitle id="alert-dialog-title">{"Confirm deletion?"}</DialogTitle>
       <DialogActions>
         <Button onClick={handleClose}>No</Button>
-        <Button onClick={() => handleDelete(id)} autoFocus>
+        <Button onClick={async () => await handleDelete(id)} autoFocus>
           Yes
         </Button>
       </DialogActions>
@@ -85,9 +85,9 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
   };
 
   const handleDelete = async (id) => {
+    await api.delete(`/url/${id}`);
     setRefresh(!refresh);
     handleCloseDialog();
-    await api.delete(`/url/${id}`);
   };
 
   return (
