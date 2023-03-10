@@ -1,9 +1,8 @@
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Button, Stack, TextField } from "@mui/material";
 
-function Input({handleSubmit, url, setUrl}) {
+function Input({ handleSubmit, url, setUrl }) {
   return (
     <>
-      <Typography variant="h5">Input</Typography>
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <Stack direction={"row"} justifyContent={"center"} spacing={1}>
           <TextField
@@ -11,8 +10,18 @@ function Input({handleSubmit, url, setUrl}) {
             onChange={(event) => setUrl(event.target.value)}
             fullWidth
             label="Enter url here"
+            
           />
-          <Button type="submit" variant="contained">
+          <Button
+            type="submit"
+            variant="outlined"
+            style={{
+              backgroundColor: "#744850",
+              color: "white",
+              fontWeight: "bold",
+            }}
+            sx={{ boxShadow: 3 }}
+          >
             Shorten
           </Button>
         </Stack>

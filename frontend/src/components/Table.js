@@ -6,8 +6,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button, ButtonGroup } from "@mui/material";
+import { ButtonGroup, IconButton } from "@mui/material";
 import api from "../axiosConfig";
+import { styled } from "@mui/material/styles";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+
+const BoldCell = styled(TableCell)({
+  fontWeight: "bold",
+  color: "white",
+});
 
 export default function BasicTable({ urls, refresh, setRefresh }) {
   const handleDelete = async (id) => {
@@ -16,27 +24,31 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
   };
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <TableContainer component={Paper}sx={{ boxShadow: 6 }}>
+      <Table
+        sx={{ minWidth: 650, boxShadow: 6 }}
+        aria-label="simple table"
+      >
         <colgroup>
           <col style={{ width: "15%" }} />
           <col style={{ width: "35%" }} />
           <col style={{ width: "35%" }} />
           <col style={{ width: "15%" }} />
         </colgroup>
-        <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Original URL</TableCell>
-            <TableCell>Shortened URL</TableCell>
-            <TableCell>Actions</TableCell>
-          </TableRow>
+        <TableHead sx={{ backgroundColor: "#744850" }}>
+          <BoldCell>Date</BoldCell>
+          <BoldCell>Original URL</BoldCell>
+          <BoldCell>Shortened URL</BoldCell>
+          <BoldCell>Actions</BoldCell>
         </TableHead>
         <TableBody>
           {urls &&
             urls.map((row) => (
               <TableRow
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={{
+                  "&:nth-of-type(odd)": { backgroundColor: "#DEDEDE" },
+                  "&:last-child td, &:last-child th": { border: 0 },
+                }}
                 key={row.id}
               >
                 <TableCell component="th" scope="row">
@@ -48,16 +60,18 @@ export default function BasicTable({ urls, refresh, setRefresh }) {
                 </TableCell>
                 <TableCell>
                   <ButtonGroup variant="outlined">
-                    <Button onClick={() => handleDelete(row.id)}>Delete</Button>
-                    <Button
+                    <IconButton onClick={() => handleDelete(row.id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                    <IconButton
                       onClick={() =>
                         navigator.clipboard.writeText(
                           `${process.env.REACT_APP_BASE_API}/url/${row.id}`
                         )
                       }
                     >
-                      Copy
-                    </Button>
+                      <ContentCopyIcon />
+                    </IconButton>
                   </ButtonGroup>
                 </TableCell>
               </TableRow>
