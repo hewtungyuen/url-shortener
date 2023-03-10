@@ -9,7 +9,7 @@ You will need the following things properly installed on your computer.
 * NodeJS v16.17.1
 * npm v8.15.0
 
-Do ensure that the database and dotenv setup is performed before running the application.
+Do ensure that the database, dotenv and dependency setup is performed before running the application.
 
 ### Database setup
 1. Open an instance of the command line client. 
@@ -33,15 +33,18 @@ Do ensure that the database and dotenv setup is performed before running the app
 #### `/frontend/.env`
 * REACT_APP_BASE_API = < backend base api endpoint >
 
+### Installing dependencies
+1. Open an instance of the command line client.
+2. Change directory to `/backend. Run the command `npm install`
+3. Return tho the root directory, then to `/frontend`. Run the command `npm install`
+
 ### Running the application locally
 1. Open two instances of the command line client.
 2. For the first instance:
 		a. Change directory to `/backend`
-		b. Run the command `npm install`
-		c. Run the command `npm run start`
+		b. Run the command `npm run start`
 3. For the second instance:
 		a. Change directory to `/frontend`
-		b. Run the command `npm install`
-		c. Run the command `npm start`
+		b. Run the command `npm start`
 
 4. Once the backend and frontend servers are running, visit http://localhost:3000
